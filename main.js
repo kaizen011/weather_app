@@ -28,6 +28,9 @@ async function searchCity(query){
 
 
 
+
+
+
 // for(let i = 1; i > 97; i++){
 //     async function gjakova(){
 //         try {
