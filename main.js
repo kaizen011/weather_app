@@ -6,7 +6,8 @@ const searchButton = document.getElementById('search-button');
 const gjakovaData = document.getElementById('weather-text');
 const gjakovaBtn = document.getElementById('get-gjakova');
 const cond = document.getElementById('cond');
-
+const results = document.getElementsByClassName('results');
+const kondi = document.getElementById('kondi')
 
 searchButton.addEventListener('click',()=>{
     const searchTerm = searchInput.value.trim();
@@ -42,31 +43,34 @@ async function gjakova() {
         const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=b68fbe11005642c2973171623231909&s&q=Gjakova&aqi=yes`, { mode: 'cors' });
         const weatherDataGK = await response.json();
         gjakovaData.textContent = "Degrees Celsius: " + weatherDataGK.current.temp_c + "°C";
-        dataChild2.textContent = "Weather conditions are: " + weatherDataGK.current.condition.text;
-        if(dataChild2 == "Partly cloudy"){
-            
+        dataChild2.textContent = weatherDataGK.current.condition.text;
+         if(dataChild2.textContent.trim() == "Patchy rain possible"){
+            const rain = document.createElement("img");
+               rain.src = "http://cdn.weatherapi.com/weather/64x64/day/176.png";
+               rain.id = "raini";
+               kondi.appendChild(rain);
         }
     } catch (error) {
         console.error('An error occurred:', error);
     }
 }
 
-function fetchWeatherPeriodically() {
-    let count = 0;
-    const totalFetches = 96;
-    const interval = 15 * 60 * 1000; // 15 minutes in milliseconds
+// function fetchWeatherPeriodically() {
+//     let count = 0;
+//     const totalFetches = 96;
+//     const interval = 15 * 60 * 1000; // 15 minutes in milliseconds
 
-    async function fetchAndSchedule() {
-        await gjakova();
-        count++;
+//     async function fetchAndSchedule() {
+//         await gjakova();
+//         count++;
 
-        if (count < totalFetches) {
-            setTimeout(fetchAndSchedule, interval);
-        }
-    }
+//         if (count < totalFetches) {
+//             setTimeout(fetchAndSchedule, interval);
+//         }
+//     }
 
-    fetchAndSchedule();
-}
+//     fetchAndSchedule();
+// }
    //API Gjakova https://api.weatherapi.com/v1/current.json?key=8caf1fc5914a41f5a9a161626231709&s&q=Gjakova&aqi=yes
 // }
 // Changing image background in relation to weather temperature
