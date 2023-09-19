@@ -84,3 +84,9 @@ body {
     display: flex;
     flex-direction: column;
 }
+#gjakova{
+    font-family: monospace;
+    align-items: center;
+    color: #1a1a1a;
+    padding: 10px;
+}
