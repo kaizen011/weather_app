@@ -1,13 +1,17 @@
+// Me hek tabela te nalt qe jon tkalunen
 const dataChild = document.getElementById('dyshi');
-const dataChild2= document.getElementById('treshi');
+const condition= document.getElementById('condition');
 const body = document.getElementsByClassName('body');
 const searchInput = document.getElementById('search-input');
 const searchButton = document.getElementById('search-button');
 const gjakovaData = document.getElementById('weather-text');
 const gjakovaBtn = document.getElementById('get-gjakova');
-const cond = document.getElementById('cond');
-const results = document.getElementsByClassName('results');
-const kondi = document.getElementById('kondi')
+const gkIMG = document.getElementById('gjakova');
+const pejaParent = document.getElementById('pejacity')
+const test = document.getElementById('hello');
+
+
+
 
 searchButton.addEventListener('click',()=>{
     const searchTerm = searchInput.value.trim();
@@ -23,7 +27,6 @@ async function searchCity(query){
         const weatherData = await response.json();
         dataChild.textContent = weatherData.current.temp_c;
         dataChild.textContent = "Degrees Celsius:  " + dataChild.textContent + "°C";
-        dataChild2.textContent = "Condition" + weatherData.condition.text;
         
     } catch (error) {
         console.error('An error occurred:', error);
@@ -35,6 +38,7 @@ async function searchCity(query){
 
 gjakovaBtn.addEventListener('click', () => {
     gjakova(); // Call the initial fetch for Gjakova when the button is clicked
+    peja();
     fetchWeatherPeriodically(); // Start the periodic fetching loop
 });
 
@@ -42,19 +46,75 @@ async function gjakova() {
     try {
         const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=b68fbe11005642c2973171623231909&s&q=Gjakova&aqi=yes`, { mode: 'cors' });
         const weatherDataGK = await response.json();
-        gjakovaData.textContent = "Degrees Celsius: " + weatherDataGK.current.temp_c + "°C";
-        dataChild2.textContent = weatherDataGK.current.condition.text;
-         if(dataChild2.textContent.trim() == "Patchy rain possible"){
-            const rain = document.createElement("img");
-               rain.src = "http://cdn.weatherapi.com/weather/64x64/day/176.png";
-               rain.id = "raini";
-               kondi.appendChild(rain);
-        }
+        gjakovaData.textContent = weatherDataGK.current.temp_c + "°C";
+        condition.textContent = weatherDataGK.current.condition.text;
+        if(condition.textContent.trim() == "Clear"){
+         const rain = document.createElement("img");
+            rain.src = "http://cdn.weatherapi.com/weather/64x64/day/113.png";
+            dataChild.appendChild(rain);
+            condition.textContent = "  Me diell";
+     }
     } catch (error) {
         console.error('An error occurred:', error);
     }
 }
 
+
+
+async function peja() {
+   try {
+       const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=b68fbe11005642c2973171623231909&s&q=Peja&aqi=yes`, { mode: 'cors' });
+       const weatherDataPJ = await response.json();
+       const pejaData = document.createElement("h1");
+       pejaData.textContent = weatherDataPJ.current.temp_c + "°C";
+       const pejaCondition = document.createElement("h1");
+       pejaCondition.textContent = weatherDataPJ.current.condition.text;
+       const holder = document.createElement("h2");
+
+
+       pejaParent.appendChild(pejaCondition);
+       pejaParent.appendChild(holder);
+       holder.id = "holder";
+       pejaParent.appendChild(pejaData);
+       if(pejaCondition.textContent.trim() == "Clear"){
+        const pejarain = document.createElement("img");
+           pejarain.src = "http://cdn.weatherapi.com/weather/64x64/day/113.png";
+           holder.appendChild(pejarain);
+           pejaCondition.textContent = "Me Diell";
+
+    }
+   } catch (error) {
+       console.error('An error occurred:', error);
+   }
+}
+
+
+// async function prishtine() {
+//    try {
+//        const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=b68fbe11005642c2973171623231909&s&q=Pristina&aqi=yes`, { mode: 'cors' });
+//        const weatherDataPJ = await response.json();
+//        const pejaData = document.createElement("h1");
+//        pejaData.textContent = weatherDataPJ.current.temp_c + "°C";
+//        const pejaCondition = document.createElement("h1");
+//        pejaCondition.textContent = weatherDataPJ.current.condition.text;
+//        if(pejaCondition.textContent.trim() == "Clear"){
+//         const pejarain = document.createElement("img");
+//            pejarain.src = "http://cdn.weatherapi.com/weather/64x64/day/113.png";
+//            const holder = document.createElement("h1");
+//            holder.appendChild(pejarain);
+//            pejaCondition.textContent = "Me Diell";
+//     }
+//    } catch (error) {
+//        console.error('An error occurred:', error);
+//    }
+// }
+
+
+
+
+
+
+// GJakove prishtine rahovec prizren deqan peje
 // function fetchWeatherPeriodically() {
 //     let count = 0;
 //     const totalFetches = 96;
@@ -62,6 +122,7 @@ async function gjakova() {
 
 //     async function fetchAndSchedule() {
 //         await gjakova();
+        
 //         count++;
 
 //         if (count < totalFetches) {
